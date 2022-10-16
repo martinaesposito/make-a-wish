@@ -180,6 +180,7 @@ function FallingStar(x, y) {
    this.tail = [];
    this.tailLength = 50;
 
+   
    this.draw = function(){
 		fill("white");
 		noStroke();
