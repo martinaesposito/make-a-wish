@@ -161,7 +161,7 @@ function draw() {
 		fallingstar = new FallingStar(100, 100);
    		} else {
 	    fallingstar.draw();
-   ì	}
+		}
 }
 
 function FallingStar(x, y) {
@@ -179,9 +179,9 @@ function FallingStar(x, y) {
 //la lunghezza dell'array è di max 50 elementi
    this.tail = [];
    this.tailLength = 50;
-   
+
    this.draw = function(){
-		fill(this.Color);
+		fill("white");
 		noStroke();
 		circle(this.x, this.y, this.r);
 
