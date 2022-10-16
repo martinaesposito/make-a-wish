@@ -1,7 +1,7 @@
 
 //CLASSI
 
-//definisco una classe per le costellazioni
+//stelle
 class Star {
 	constructor(){
 		this.x = random(0,width);
@@ -69,22 +69,21 @@ class Star {
 }
 
 
-//definisco una classe per le stelline
+//stelline
 class SmallStar {
 	constructor(x, y) {
-	  this.x = random(0,width);
-	  this.y = random(0,height);
-	  this.r = random(0.1, 1.5);
-	  this.xSpeed = random(-0.5, 0.5);
-	  this.ySpeed = random(-0.5, 0.5);
-	  //this.c = color(random(128, 255), random(128, 255), random(128, 255));
-	}
+		this.x = random(0,width);
+		this.y = random(0,height);
+		this.r = random(0.1, 1.5);
+		this.xSpeed = random(-0.5, 0.5);
+		this.ySpeed = random(-0.5, 0.5);
+		}
   
 	createSmallStar() {
 		noStroke();
 		fill("white");
 		circle(this.x,this.y,this.r);
-	}
+		}
 
 	moveSmallStar() {
 		if (this.x < 0 || this.x > width)
@@ -94,17 +93,19 @@ class SmallStar {
 
 			this.x+=this.xSpeed;
 			this.y+=this.ySpeed;
-	}
-}	
+		}
+	}	
 
 
-//ARRAY
+
+//ARRAY E VARIABILI GLOBALI
 
 let stars = [];
 let SmallStars = [];
 let fallingstars = []
 
 let fallingstar
+
 
 
 //FUNZIONI
@@ -117,22 +118,20 @@ function setup() {
 		stars.push(new Star());
 	}
 
-//pianeti
+//stelline
 	for(let i = 0; i < width ;i++){
 	SmallStars.push(new SmallStar());
 	}
 
-//falling stars
-fallingstar = new FallingStar(100, 100);
+//stelle cadenti
+	fallingstar = new FallingStar(100, 100);
 
-for(let i = 0; i < width/50; i++){
-	const randX = round(random(0, window.innerWidth));
-	const randY = round(random(0, window.innerHeight));
-	const randR = random(0.2, 2);
-	fallingstars.push(new StarField(randX, randY, randR));
-}
-
-
+	for(let i = 0; i < width/50; i++){
+		const randX = round(random(0, window.innerWidth));
+		const randY = round(random(0, window.innerHeight));
+		const randR = random(0.2, 2);
+		fallingstars.push(new StarField(randX, randY, randR));
+		}
 }
 
 function draw() {	
@@ -157,14 +156,12 @@ function draw() {
 	fallingstars.map((element) => element.draw());
 
 //chiamo la funziona che crea una nuova stella solo se quella già creata è uscita dalla window
-	if(fallingstar.x > window.innerWidth + 100 ||
-		fallingstar.x < -100 || 
-		fallingstar.y > window.innerHeight + 100
-	   ){
+	if(fallingstar.x > window.innerWidth + 100 || fallingstar.x < -100 || 
+		fallingstar.y > window.innerHeight + 100) {
 		fallingstar = new FallingStar(100, 100);
-   } else {
+   		} else {
 	    fallingstar.draw();
-   }
+   ì	}
 }
 
 function FallingStar(x, y) {
@@ -178,51 +175,52 @@ function FallingStar(x, y) {
    
    this.r = round(random(3, 5));
 
+//array contenente i valori di x, y e r dei cerchi che comporranno la coda
+//la lunghezza dell'array è di max 50 elementi
    this.tail = [];
    this.tailLength = 50;
-
-   this.Color = "#fce1b4";
-
    
    this.draw = function(){
-	   fill(this.Color);
-	   noStroke();
-	   circle(this.x, this.y, this.r);
+		fill(this.Color);
+		noStroke();
+		circle(this.x, this.y, this.r);
 
-	   this.move();
-	   this.history();
-	   this.drawTail();
-   }
+		this.move();
+		this.history();
+		this.drawTail();
+   		}
    
-//scrivo la funzione che salva i valori x,y e r della falling star nell'array tail per generare la coda
+//scrivo la funzione che salva i valori x, y e r della falling star nell'array tail per generare la coda
    this.history = function() {
 	    this.tail.push({x: this.x, y: this.y, r: this.r});
 
 //se la lunghezza dell'array è più lunga di 60 elementi allora cancella il primo elemento dell'array
 //questo è ciò che permette alla coda di scomparire man mano che la stella si muove
 		if(this.tail.length > this.tailLength) {
-			this.tail.shift(); }
-   }
+			this.tail.shift(); 
+			}
+ 		}
 
 //disegno la coda
 //per la lunghezza della coda disegno un cerchio assumendo i valori di x, y e r salvati nell'array 
    this.drawTail = function(){
 	   for(i = this.tail.length - 1; i > 0; i--){
-		   fill("white");
-		   noStroke();
-		   circle(this.tail[i].x, this.tail[i].y, this.tail[i].r);
+			fill("white");
+			noStroke();
+			circle(this.tail[i].x, this.tail[i].y, this.tail[i].r);
 		   
-		   //calculate the proper numer to reduce radius to 0
-		   const radiusReducer = this.tail[i].r / this.tailLength*2;
-		   this.tail[i].r -= radiusReducer;
-	   }
-   }
+//variabile corrispondente alla r dei cerchi componenti la coda della stella
+//la dimensione è inversamente proporzionale alla posizione nell'array
+			const radiusReducer = this.tail[i].r / this.tailLength*2;
+			this.tail[i].r -= radiusReducer;
+			}
+		}
    
    this.move = function(){
-	   this.x += this.xSpeed;
-	   this.y += this.ySpeed;
-   }
-}
+		this.x += this.xSpeed;
+		this.y += this.ySpeed;
+		}
+	}
 
 function StarField(x, y, r) {
    this.x = x;
@@ -230,89 +228,13 @@ function StarField(x, y, r) {
    this.r = r;
    
    this.draw = function(){
-	   circle(this.x, this.y, this.r)
-	   fill(255);	
-   }
+		circle(this.x, this.y, this.r)
+		fill(255);	
+		}
+	}
 
-}
 
 
 function windowResized() {
 	resizeCanvas(windowWidth, windowHeight);
   }
-
-
-
-
-
-
-
-
-
-
-
-
-/*SOLI
-
-  //definisco una classe per i soli
-class Sun {
-	constructor() {
-	  this.x = random(0,width);
-	  this.y = random(0,height);
-	  this.r = random(30, 50);
-	  this.xSpeed = 20
-	  this.ySpeed = 20;
-	}
-
-	createSun(){
-		noStroke();
-		fill(255, 255, 0);
-		circle(width / 2, height / 2, 50);
-	}
-
-	moveSun() {
-		if (this.x < 0 || this.x > width)
-			this.xSpeed*=-1;
-		if (this.y < 0 || this.y > height)
-			this.ySpeed*=-1;
-
-			this.x+=this.xSpeed;
-			this.y+=this.ySpeed;
-	}
-}
-
-//soli	
-	for(let i = 0; i < 5 ;i++){
-	suns.push(new Sun());
-  	}
-	
-//soli
-	for(let i = 0;i<suns.length;i++) {
-		suns[i].createSun();
-		suns[i].moveSun();
-		}
-
-//let suns = [];
-
-*/
-
-
-/*PIANETI
-
-	orbitPlanet(){
-		planets.forEach(element =>{
-		let distPlanet = dist(this.x, this.y, mouseX, mouseY);
-
-		if (distPlanet < 80) {
-			this.xSpeed += (mouseX - this.x) / distPlanet;
-			this.ySpeed += (mouseY - this.y) / distPlanet;
-		
-			this.x += this.xSpeed;
-			this.y += this.ySpeed;
-		}
-	  })
-	}
-	
-		
-	planets[i].orbitPlanet(planets.slice(i));
-	*/
