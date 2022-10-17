@@ -60,7 +60,7 @@ class Star {
 
 			if (disM < 40) {
 				this.r = random(0,3)+5;
-				this.brgt = random(0,100)+90
+				this.brgt = random(0,10)+90
 				this.sat = random(25, 35)
 				this.alph = random(90,100);
 			} 
