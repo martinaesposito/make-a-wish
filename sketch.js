@@ -7,16 +7,20 @@ class Star {
 		this.x = random(0,width);
 		this.y = random(0,height);
 		this.r 
+
+		this.hue = random(35,40)
 		this.brgt
+		this.sat = random(0,10)
 		this.alph = random(0,100);
+
 		this.xSpeed = random(-0.3,0.3);
 		this.ySpeed = random(-0.3,0.3);
 	}
 
 	createStar() {
 		noStroke();
-		colorMode(HSB);
-		fill(100,0,this.brgt,this.alph);
+		colorMode(HSB,360,100,100,100);
+		fill(this.hue,this.sat,this.brgt,this.alph);
 		circle(this.x,this.y,this.r);
 	}
   
@@ -56,7 +60,9 @@ class Star {
 
 			if (disM < 40) {
 				this.r = random(0,3)+5;
-				this.brgt = random(0,1)+100
+				this.brgt = random(0,100)+90
+				this.sat = random(25, 35)
+				this.alph = random(90,100);
 			} 
 			else if (disM < 120) {
 				this.r = random(0,2)+2;
@@ -107,7 +113,6 @@ let fallingstars = []
 let fallingstar
 
 
-
 //FUNZIONI
 
 function setup() {
@@ -126,7 +131,7 @@ function setup() {
 //stelle cadenti
 	fallingstar = new FallingStar(100, 100);
 
-	for(let i = 0; i < width/50; i++){
+	for(let i = 0; i < width/100; i++){
 		const randX = round(random(0, window.innerWidth));
 		const randY = round(random(0, window.innerHeight));
 		const randR = random(0.2, 2);
@@ -145,7 +150,7 @@ function draw() {
 		stars[i].joinStars(stars.slice(i));
 		stars[i].mouseStars(stars.slice(i));
 		}
-//pianeti
+//stelline
 	for(let i = 0;i<SmallStars.length;i++) {
 		SmallStars[i].createSmallStar();
 		SmallStars[i].moveSmallStar();
@@ -162,27 +167,31 @@ function draw() {
    		} else {
 	    fallingstar.draw();
 		}
-}
+}		
+
 
 function FallingStar(x, y) {
  
    this.x = round(random(0, window.innerWidth));
-   this.xSpeed = round(random([-3,-8,3,8]));
+   this.xSpeed = round(random([-10,-5,5,10]));
 
 //le stelle vengono create sempre sopra alla window e procedono verso il basso 
    this.y = -10;
-   this.ySpeed = random(1, 2);
+   this.ySpeed = random(2, 3);
    
-   this.r = round(random(3, 5));
+   this.r = round(random(3, 8));
+
+	this.startColor = "#fce1b4";
+	this.endColor = "white"
 
 //array contenente i valori di x, y e r dei cerchi che comporranno la coda
 //la lunghezza dell'array è di max 50 elementi
    this.tail = [];
    this.tailLength = 50;
 
-   
+
    this.draw = function(){
-		fill("white");
+		fill(this.startColor);
 		noStroke();
 		circle(this.x, this.y, this.r);
 
@@ -203,10 +212,15 @@ function FallingStar(x, y) {
  		}
 
 //disegno la coda
-//per la lunghezza della coda disegno un cerchio assumendo i valori di x, y e r salvati nell'array 
+//per la lunghezza della coda disegno un cerchio assumendo i valori di x, y e r salvati nell'array nella posizione i-1
    this.drawTail = function(){
+		let colorScale = chroma
+			.scale([this.endColor, this.startColor])
+			.mode("lch")
+			.colors(this.tail.length);
+
 	   for(i = this.tail.length - 1; i > 0; i--){
-			fill("white");
+			fill(colorScale[i]);
 			noStroke();
 			circle(this.tail[i].x, this.tail[i].y, this.tail[i].r);
 		   
@@ -229,11 +243,10 @@ function StarField(x, y, r) {
    this.r = r;
    
    this.draw = function(){
-		circle(this.x, this.y, this.r)
-		fill(255);	
+		fill("white");	
+		circle(this.x, this.y, this.r);
 		}
 	}
-
 
 
 function windowResized() {
