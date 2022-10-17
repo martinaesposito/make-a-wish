@@ -59,17 +59,20 @@ class Star {
 		let disM = dist(this.x,this.y,mouseX,mouseY);
 
 			if (disM < 30) {
-				this.r = random(0,3)+5;
-				this.hue = random(35,40)
-				this.brgt = random(0,10)+90
-				this.sat = random(30, 45)
+				this.r = random(1,3)+5;
+				
+				this.brgt = random(0,10)+90;
+				
 				this.alph = random(90,100);
 			} 
 			else if (disM < 150) {
-				this.r = random(0,3)+2;
+				this.r = random(1,3)+2;
+
+				this.hue = random(35,40)
+				this.sat = random(0, 50)
 			} 
 			else {
-				this.r = random(1,4)
+				this.r = random(1,3)+1;
 				}
 		});
 	}
@@ -120,7 +123,7 @@ function setup() {
 	createCanvas(windowWidth, windowHeight);
 
 //stelle
-	for(let i = 0; i < width/4 ;i++){
+	for(let i = 0; i < width/3 ;i++){
 		stars.push(new Star());
 	}
 
