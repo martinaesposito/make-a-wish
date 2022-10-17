@@ -8,8 +8,8 @@ class Star {
 		this.y = random(0,height);
 		this.r 
 
-		this.hue = random(35,40)
-		this.brgt
+		this.hue = 0;
+		this.brgt = random(90,100);
 		this.sat = random(0,10)
 		this.alph = random(0,100);
 
@@ -58,17 +58,18 @@ class Star {
 		stars.forEach(element =>{
 		let disM = dist(this.x,this.y,mouseX,mouseY);
 
-			if (disM < 40) {
+			if (disM < 30) {
 				this.r = random(0,3)+5;
+				this.hue = random(35,40)
 				this.brgt = random(0,10)+90
-				this.sat = random(25, 35)
+				this.sat = random(30, 45)
 				this.alph = random(90,100);
 			} 
-			else if (disM < 120) {
-				this.r = random(0,2)+2;
+			else if (disM < 150) {
+				this.r = random(0,3)+2;
 			} 
 			else {
-				this.r = random(1,3)
+				this.r = random(1,4)
 				}
 		});
 	}
