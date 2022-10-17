@@ -38,7 +38,7 @@ class Star {
   
 // funzione che crea connessioni tra particelle che abbiamo una certa distanza tra di loro (40)
 	joinStars(stars) {
-//per ciascun elemento dell'array stars chiamo una funzione che si attua nel momento in cui la chiamo
+//per ciascun elemento dell'array stars chiamo una funzione 
 		stars.forEach(element =>{
 //definisco una variabile che calcola la distanza tra due punti dell'array
 		let dis = dist(this.x,this.y,element.x,element.y);
@@ -111,7 +111,7 @@ class SmallStar {
 //ARRAY E VARIABILI GLOBALI
 
 let stars = [];
-let SmallStars = [];
+let smallstars = [];
 let fallingstars = []
 
 let fallingstar
@@ -129,19 +129,13 @@ function setup() {
 
 //stelline
 	for(let i = 0; i < width ;i++){
-	SmallStars.push(new SmallStar());
+	smallstars.push(new SmallStar());
 	}
 
 //stelle cadenti
 	fallingstar = new FallingStar(100, 100);
-
-	for(let i = 0; i < width/100; i++){
-		const randX = round(random(0, window.innerWidth));
-		const randY = round(random(0, window.innerHeight));
-		const randR = random(0.2, 2);
-		fallingstars.push(new StarField(randX, randY, randR));
-		}
 }
+
 
 function draw() {	
 	colorMode(RGB)
@@ -155,17 +149,17 @@ function draw() {
 		stars[i].mouseStars(stars.slice(i));
 		}
 //stelline
-	for(let i = 0;i<SmallStars.length;i++) {
-		SmallStars[i].createSmallStar();
-		SmallStars[i].moveSmallStar();
+	for(let i = 0;i<smallstars.length;i++) {
+		smallstars[i].createSmallStar();
+		smallstars[i].moveSmallStar();
 		}
 
 //falling stars
-//applico a tutti gli elementi dell'array la funzione draw e creo un altro array che li contiene
+//per ciascun elemento dell'array stars chiamo una funzione 
 	fallingstars.map((element) => element.draw());
 
 //chiamo la funziona che crea una nuova stella solo se quella già creata è uscita dalla window
-	if(fallingstar.x > window.innerWidth + 100 || fallingstar.x < -100 || 
+	if (fallingstar.x > window.innerWidth + 100 || fallingstar.x < -100 || 
 		fallingstar.y > window.innerHeight + 100) {
 		fallingstar = new FallingStar(100, 100);
    		} else {
@@ -177,13 +171,13 @@ function draw() {
 function FallingStar(x, y) {
  
    this.x = round(random(0, window.innerWidth));
-   this.xSpeed = round(random([-10,-5,5,10]));
+   this.xSpeed = round(random([-4,-1,1,4]));
 
 //le stelle vengono create sempre sopra alla window e procedono verso il basso 
    this.y = -10;
-   this.ySpeed = random(2, 3);
+   this.ySpeed = random(2, 4);
    
-   this.r = round(random(3, 8));
+   this.r = round(random(4, 8));
 
 	this.startColor = "#fce1b4";
 	this.endColor = "white"
@@ -192,7 +186,6 @@ function FallingStar(x, y) {
 //la lunghezza dell'array è di max 50 elementi
    this.tail = [];
    this.tailLength = 50;
-
 
    this.draw = function(){
 		fill(this.startColor);
@@ -208,7 +201,7 @@ function FallingStar(x, y) {
    this.history = function() {
 	    this.tail.push({x: this.x, y: this.y, r: this.r});
 
-//se la lunghezza dell'array è più lunga di 60 elementi allora cancella il primo elemento dell'array
+//se la lunghezza dell'array è più lunga di 50 elementi allora cancella il primo elemento dell'array
 //questo è ciò che permette alla coda di scomparire man mano che la stella si muove
 		if(this.tail.length > this.tailLength) {
 			this.tail.shift(); 
@@ -218,9 +211,10 @@ function FallingStar(x, y) {
 //disegno la coda
 //per la lunghezza della coda disegno un cerchio assumendo i valori di x, y e r salvati nell'array nella posizione i-1
    this.drawTail = function(){
+	
+//libreria di javascript chroma.js mi permette di attribuire diverse proprietà al colore
 		let colorScale = chroma
 			.scale([this.endColor, this.startColor])
-			.mode("lch")
 			.colors(this.tail.length);
 
 	   for(i = this.tail.length - 1; i > 0; i--){
@@ -238,17 +232,6 @@ function FallingStar(x, y) {
    this.move = function(){
 		this.x += this.xSpeed;
 		this.y += this.ySpeed;
-		}
-	}
-
-function StarField(x, y, r) {
-   this.x = x;
-   this.y = y;
-   this.r = r;
-   
-   this.draw = function(){
-		fill("white");	
-		circle(this.x, this.y, this.r);
 		}
 	}
 
