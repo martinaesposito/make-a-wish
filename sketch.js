@@ -161,6 +161,8 @@ function draw() {
 //chiamo la funziona che crea una nuova stella cadente solo se quella già creata è uscita dalla window
 	if (fallingstar.x > window.innerWidth + 100 || fallingstar.x < -100 || 
 		fallingstar.y > window.innerHeight + 100) {
+		
+//uso l'operatore new perchè la funzione è definita come un constructor, ossia una funzione oggetto
 		fallingstar = new FallingStar(100, 100);
    		} else {
 	    fallingstar.draw();
@@ -172,7 +174,8 @@ function draw() {
 //this. indica un valore nullo dell'oggetto nel momento in cui viene creato
 // man mano che viene eseguita la funzione le sue properties assumono dei valori 
 function FallingStar(x, y) {
- 
+
+//come gli oggetti posso specificare delle proprietà che vengono attribuite all'oggetto ogni volta che viene creato  
    this.x = round(random(0, window.innerWidth));
    this.xSpeed = round(random([-4,-1,1,4]));
 
