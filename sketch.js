@@ -158,7 +158,7 @@ function draw() {
 //per ciascun elemento dell'array stars chiamo una funzione 
 	fallingstars.map((element) => element.draw());
 
-//chiamo la funziona che crea una nuova stella solo se quella già creata è uscita dalla window
+//chiamo la funziona che crea una nuova stella cadente solo se quella già creata è uscita dalla window
 	if (fallingstar.x > window.innerWidth + 100 || fallingstar.x < -100 || 
 		fallingstar.y > window.innerHeight + 100) {
 		fallingstar = new FallingStar(100, 100);
@@ -168,6 +168,9 @@ function draw() {
 }		
 
 
+//definisco il constructor che crea le stelle cadenti
+//this. indica un valore nullo dell'oggetto nel momento in cui viene creato
+// man mano che viene eseguita la funzione le sue properties assumono dei valori 
 function FallingStar(x, y) {
  
    this.x = round(random(0, window.innerWidth));
